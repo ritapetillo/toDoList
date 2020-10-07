@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<!--
+ASSIGNMENT RULES
+- The solution must be pushed to the repository and be available for the tutors by the end of the day
+- You can ask for tutor's help
+- You can google / use StackOverflow BUT we suggest you to use just the material provided
+- To test the page, just open it with your default browser.
+
+ASSIGNMENT TOPIC
+You are building a task list site.
+The have a list of tasks and can, at any time, add a new one, delete one or sort the whole bunch of them
+-->
+  
+</body>
+</html>
+<html lang="en">
+  <head>
+    <!-- EXERCISE 1:
+    Specify the title, the charset (UTF-8) and the viewport of the page. DONE
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap");
+
+      /* EXERCISE 2:  
+       Create a CSS class for the task list with a diverse background
+       Create a CSS class for the task list item with a border, a bold text and a bigger font size
+       Style every button of the page to be bigger DONE
+    */
+   
+
+    body{
+      font-size:16px;
+      font-family:'Lato',sans-serif;
+      display:grid;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: rgb(34,193,195);
+background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+position:relative;
+      
+    }
+    main{
+      width:40vw;
+      background-color:white;
+      padding:5%;
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+      border-radius: 10px;
+      text-align: center;
+      
+      
+
+    }
+
+    ul{
+      list-style-type:none;
+      padding:2px 30px;
+    }
+    #task-list{
+      background-color:lightgrey;
+    }
+
+    .tasks__list{
+      width:100%;
+      
+    }
+
+    .tasks__add{
+      display:flex;
+      flex-direction:column;
+      
+    }
+
+    .task-list__item{
+      border-right:1px solid rgb(0, 77, 128);
+      
+      padding:8px;
+      margin: 10px 10px;
+      background-color:rgb(250, 255, 175,0.001);
+      font-weight: 800;
+      font-size: 18px;
+      width:100%;
+      margin-left: auto;
+      margin-right: auto;
+
+
+    }
+
+    .tasks__add{
+      display:flex;
+      flex-direction: row;
+    justify-content:center;
+    width:100%;
+    padding-left:10px;
+    padding-right: 10px;;
+
+    }
+
+    input[type='text']{
+      border:none;
+      border-bottom: 1px solid green;
+      background-color: rgba(105, 207, 105, 0.1);
+      outline:none;
+      height: 20px;
+      flex:1;
+      margin-right: 10px;
+      
+    }
+
+    input[type='text']:focus{
+      
+      border-bottom: 1px solid rgb(0, 77, 128);
+      background-color:rgb(100, 162, 219,0.2);
+      
+    }
+
+    input[type='button']{
+      outline:none;
+      border:1px solid green;
+      padding:10px;
+      border-radius:2px;
+     color:rgb(5, 94, 5);
+      background-color:transparent;
+      padding:0.4em;
+      font-family:'Lato';
+      margin: 3px 4px;
+
+
+    }
+    .tasks__add  i{
+     
+      color:black;
+      color:green;      
+      cursor: pointer;
+      margin-right:10px;
+
+    
+    }
+
+
+    .tasks__add  i:hover{
+     transform: scale(1.2);
+   }
+
+    #newTask{
+      width:70%;
+    }
+
+    .tasks__color{
+      color:white;
+      position:absolute;
+      top:10;
+      right:22%;
+    }
+    .tasks__color i{
+     cursor:pointer;
+    }
+    .tasks__color i:hover{
+     transform:scaleX(1.2);
+     margin-left:5px;
+    }
+
+    .tasks__extra{
+      display:flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width:100%;
+    }
+
+    .tasks__extra input:hover{
+transform: scale(1.1); 
+     cursor: pointer;
+     
+    }
+
+
+
+
+    </style>
+  </head>
+  <body>
+    <main>
+    <h1>Welcome to your personal Task List!</h1>
+    <br />
+
+    <span
+      >You can add any task you like by writing it in the specified field and
+      then press "Add new task"</span
+    ><br /><br />
+<div class="tasks__add">
+    <input type="text" id="newTask" />
+    <i class="fa fa-plus" aria-hidden="true" onclick="addNewTask()"></i>
+    <i class="fa fa-sort-alpha-asc" aria-hidden="true" onclick="bubblesort()" ></i>
+
+  </div>
+    <!-- EXERCISE 3
+        Create a button "Remove Last Task" to trigger the method "removeLast" DONE
+        -->
+
+    <!-- EXERCISE 4
+        Create a button "Remove First Task" to trigger the method "removeFirst" DONE
+        -->
+<div class="tasks__list">
+    <ul id="myTaskList"></ul>
+      </div>
+
+    <hr />
+
+    <div class="tasks__color">
+    <input type="color" placeholder="Color" id="colorPicker" />
+    <i class="fa fa-paint-brush" aria-hidden="true" onclick="changeTaskBackgroundColor()"></i>
+
+  </div>
+    <hr />
+
+    <div class="tasks__extra">
+
+    <input type="button" value="Remove First" onclick="removeFirst()" />
+    <input type="button" value="Remove Last" onclick="removeLast()" />
+
+  </div>
+  </main>
+
+
+    <script>
+      /* EXERCISE 5: 
+                Add a new task to the list.
+                Suggestion:
+                - Use document.getElementById to get the UL item and the input text
+                - Use the document.createElement to create the new List Item
+                - Append the child to the UL
+            */
+
+let taskList = document.getElementById('myTaskList');
+        function addNewTask(){
+          let newTask = document.getElementById('newTask')
+          let liTask = document.createElement('li');
+          liTask.className = 'task-list__item'
+          liTask.innerText = newTask.value
+          taskList.appendChild(liTask)
+          newTask.value =""
+        }   
+
+      /* EXERCISE 6: 
+                Create a method "removeLast" which removes the last item from the task list
+            */
+
+           function removeLast(){
+             taskList.removeChild(taskList.lastChild)
+           }
+
+      /* EXERCISE 7: 
+                Create a method "removeFirst" which removes the first item from the task list
+            */
+            function removeFirst(){
+             taskList.removeChild(taskList.firstChild)
+           }
+
+      /* EXERCISE 8: 
+               Create a method "getTasksAsArray" which returns (and print to the console) an array containing the tasks as string
+            */
+
+            let arrayTask = []
+
+          let listTasks = document.getElementsByTagName("li")
+           function getTasksAsArray(){
+           for(let i=0;i<listTasks.length;i++){
+             arrayTask.push(listTasks[i].innerText)
+           }
+           console.log(arrayTask)
+       
+           }
+
+      /* EXERCISE 9:
+               Create a method "changeTaskBackgroundColor" which takes the color from the color picker with an 
+               onchange event listener ad applies it as background to every list item
+            */
+
+        function changeTaskBackgroundColor(){
+          let color = document.getElementById('colorPicker').value;
+          document.getElementsByTagName('main')[0].style.backgroundColor = color;
+        }
+
+      /* EXTRA */
+
+      /* EXERCISE 10: 
+               Create a method "bubbleSort()" which sort the task list alphabetically using the bubble sort algorithm
+            
+               Use your spare time to beautify your task list with CSS.
+
+               Suggestion:
+               - Break the code into many function for semplicity 
+               - Reuse the functions previously created
+            */
+
+            
+
+            function bubblesort(){
+              //I create an array with task converted in tasks
+              getTasksAsArray();
+              //I sort the array in alphabetical order
+              arrayTask.sort();
+              //I replace each li item with the text coming from the sorted array of tasks
+              while(taskList.firstChild){
+                taskList.removeChild(taskList.firstChild);
+              }
+              
+              for(let i=0;i<arrayTask.length;i++){
+                let li = document.createElement('li')
+                li.innerHTML = arrayTask[i]
+                li.className = 'task-list__item'
+
+                taskList.appendChild(li);
+                // listTasks[i].innerText = arrayTask[i]
+              }
+              arrayTask = []
+
+            }
+
+    </script>
+        <script src="https://kit.fontawesome.com/84a612360c.js" crossorigin="anonymous"></script>
+
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
