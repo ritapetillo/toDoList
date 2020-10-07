@@ -180,6 +180,8 @@ transform: scale(1.1);
 
 
 
+
+
     </style>
   </head>
   <body>
@@ -212,7 +214,7 @@ transform: scale(1.1);
 
     <div class="tasks__color">
     
-    <input type="color" placeholder="Color" id="colorPicker" />
+    <input type="color" placeholder="Color" id="colorPicker" onchange="changeTaskBackgroundColor()" />
     <i class="fa fa-paint-brush" aria-hidden="true" onclick="changeTaskBackgroundColor()"></i>
 
   </div>
@@ -305,10 +307,13 @@ let taskList = document.getElementById('myTaskList');
               getTasksAsArray();
               //I sort the array in alphabetical order
               arrayTask.sort();
-              //I replace each li item with the text coming from the sorted array of tasks
+
+              //I delete all the li items
               while(taskList.firstChild){
                 taskList.removeChild(taskList.firstChild);
               }
+
+              //I create new li item with the text coming from the sorted array of tasks
               
               for(let i=0;i<arrayTask.length;i++){
                 let li = document.createElement('li')
@@ -316,7 +321,6 @@ let taskList = document.getElementById('myTaskList');
                 li.className = 'task-list__item'
 
                 taskList.appendChild(li);
-                // listTasks[i].innerText = arrayTask[i]
               }
               arrayTask = []
 
